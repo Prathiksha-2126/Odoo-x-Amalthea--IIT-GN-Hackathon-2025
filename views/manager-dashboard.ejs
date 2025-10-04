@@ -1,0 +1,50 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="card">
+    <h1 class="card-title">Manager Dashboard</h1>
+    <p>Welcome, <%= user.name %>!</p>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Expenses for Approval</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Date</th>
+                <th>Amount (in Company Currency)</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+             <% if(locals.expenses && expenses.length > 0) { %>
+                <% expenses.forEach(expense => { %>
+                    <tr>
+                        <td><%= expense.employee.name %></td>
+                        <td><%= new Date(expense.date).toLocaleDateString() %></td>
+                        <td><%= expense.amountInCompanyCurrency.toFixed(2) %> <%= expense.company.defaultCurrency %></td>
+                        <td><%= expense.category %></td>
+                        <td>
+                            <form action="/expenses/approve/<%= expense._id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-success">Approve</button>
+                            </form>
+                            <form action="/expenses/reject/<%= expense._id %>" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="5" style="text-align: center;">No expenses awaiting approval.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Team Expense History</h2>
+    <!-- Table for team's past expenses can go here -->
+</div>

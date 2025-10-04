@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="card">
+    <h1 class="card-title">Employee Dashboard</h1>
+    <p>Welcome, <%= user.name %>!</p>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Submit New Expense</h2>
+    <form action="/expenses/submit" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="number" step="0.01" id="amount" name="amount" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="currency">Currency</label>
+            <input type="text" id="currency" name="currency" class="form-control" placeholder="e.g., USD, EUR" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="receipt">Receipt (Optional)</label>
+            <input type="file" id="receipt" name="receipt" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Expense</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2 class="card-title">My Expense History</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(locals.expenses && expenses.length > 0) { %>
+                <% expenses.forEach(expense => { %>
+                    <tr>
+                        <td><%= new Date(expense.date).toLocaleDateString() %></td>
+                        <td><%= expense.amount %> <%= expense.currency %></td>
+                        <td><%= expense.category %></td>
+                        <td><%= expense.status %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" style="text-align: center;">No expenses found.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,48 @@
+<% layout("/layouts/boilerplate") %>
+
+div class="card">
+    <h1 class="card-title">Admin Dashboard</h1>
+    <p>Welcome, <%= user.name %>!</p>
+</div>
+
+<div class="card">
+    <h2 class="card-title">User Management</h2>
+    <form action="/users/create" method="POST">
+        <div class="form-group">
+            <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+        </div>
+        <div class="form-group">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+            <select name="role" class="form-control" required>
+                <option value="Employee">Employee</option>
+                <option value="Manager">Manager</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+         <div class="form-group">
+            <label for="manager">Assign Manager (optional)</label>
+            <select name="managerId" class="form-control">
+                <option value="">None</option>
+                <% if(locals.managers) { managers.forEach(manager => { %>
+                    <option value="<%= manager._id %>"><%= manager.name %></option>
+                <% }); } %>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+    
+    <h3 style="margin-top: 2rem;">Existing Users</h3>
+    <table class="table">
+       <!-- User list would be dynamically inserted here -->
+    </table>
+</div>
+
+<div class="card">
+    <h2 class="card-title">Approval Rules Configuration</h2>
+    <!-- Form to configure approval rules -->
+</div>

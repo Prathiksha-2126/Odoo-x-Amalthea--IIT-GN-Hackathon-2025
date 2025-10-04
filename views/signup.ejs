@@ -1,0 +1,51 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="card" style="max-width: 500px; margin: 4rem auto;">
+    <div class="card-header">
+        Sign Up
+    </div>
+    <form action="/auth/signup" method="POST">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" name="companyName" class="form-control" required>
+        </div>
+         <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" class="form-control" required></select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+    </form>
+     <p style="text-align: center; margin-top: 1rem;">
+        Already have an account? <a href="/auth/login">Login</a>
+    </p>
+</div>
+
+<script>
+    fetch('https://restcountries.com/v3.1/all?fields=name,currencies')
+        .then(response => response.json())
+        .then(data => {
+            const countrySelect = document.getElementById('country');
+            data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+            data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.name.common;
+                option.textContent = country.name.common;
+                if (Object.keys(country.currencies).length > 0) {
+                    option.dataset.currency = Object.keys(country.currencies)[0];
+                }
+                countrySelect.appendChild(option);
+            });
+        });
+</script>
